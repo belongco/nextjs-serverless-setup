@@ -1,0 +1,61 @@
+# service name
+service: service-name
+
+
+plugins:
+  - serverless-domain-manager
+  - serverless-apigw-binary
+  - serverless-apigwy-binary
+
+
+custom:
+  domain:
+    staging: staging.domain.com
+    production: domain.com
+  subnetId:
+    staging:
+      - "subnet-id1"
+      - "subnet-id2"
+    production:
+      - "subnet-id1"
+      - "subnet-id2"
+  securityGroup:
+    staging: "sg-grp1"
+    production: "sg-grp2"
+  customDomain:
+    basePath: ''
+    domainName: ${self:custom.domain.${opt:stage}}
+    certificateName: '*.certificate-domains'
+    stage: ${opt:stage}
+    createRoute53Record: true
+  apigwBinary:
+    types:
+      - '*/*'
+
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: ap-southeast-1
+  memorySize: 128
+  environment:
+    ENV_FILE: .env.${opt:stage}
+    STATIC_PATH: ${opt:staticPath}
+
+functions:
+  app:
+    handler: lambda.handler
+    vpc:
+      securityGroupIds:
+        - ${self:custom.securityGroup.${opt:stage}}
+      subnetIds: ${self:custom.subnetId.${opt:stage}}
+    events:
+      - http:
+          method: ANY
+          path: /
+          contentHandling: CONVERT_TO_BINARY
+      - http:
+          method: ANY
+          path: '{proxy+}'
+          contentHandling: CONVERT_TO_BINARY

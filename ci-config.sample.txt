@@ -1,0 +1,6 @@
+# Test
+yarn run lint
+
+# Deployment
+s3Upload /static
+serverless deploy --stage stage_name --staticPath s3Url

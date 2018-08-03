@@ -1,6 +1,9 @@
 ---
 
+serviceName: "dog"
 baseDomain: "domain.io"
+region: "ap-southeast-1"
+accountId: "111111111111"
 
 subnetId:
   staging:
@@ -15,4 +18,3 @@ securityGroup:
     - "sg-eeeeeeee"
   production:
     - "sg-ffffffff"
-

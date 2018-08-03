@@ -1,4 +1,4 @@
-service: service-name
+service: ${file(./serverless-vpc-variables.yml):serviceName}
 
 
 plugins:
@@ -8,8 +8,8 @@ plugins:
 
 
 custom:
-  region: ${opt:region, 'ap-southeast-1'}
-  accountId: ${opt:accountId, '111111111111'}
+  region: ${file(./serverless-vpc-variables.yml):region}
+  accountId: ${file(./serverless-vpc-variables.yml):accountId}
   domain:
     staging: staging-${self:service}.${file(./serverless-vpc-variables.yml):baseDomain}
     production: production-${self:service}.${file(./serverless-vpc-variables.yml):baseDomain}
@@ -33,12 +33,13 @@ custom:
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: dev
-  region: ap-southeast-1
+  region: ${file(./serverless-vpc-variables.yml):region}
   memorySize: 128
   environment:
-    ENV_FILE: .env.${opt:stage}
-    STATIC_PATH: ${opt:staticPath}
+    DB_PREFIX: "${opt:stage}_${self:service}_"
+    SERVICE_AWS_REGION: "${file(./serverless-vpc-variables.yml):region}"
+    NODE_ENV: 'production'
+    STATIC_PATH: ''
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -68,8 +69,7 @@ functions:
   app:
     handler: lambda.handler
     vpc:
-      securityGroupIds:
-        - ${self:custom.securityGroup.${opt:stage}}
+      securityGroupIds: ${self:custom.securityGroup.${opt:stage}}
       subnetIds: ${self:custom.subnetId.${opt:stage}}
     events:
       - http:

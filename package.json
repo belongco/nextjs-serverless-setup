@@ -4,7 +4,7 @@
   "description": "Simple setup to deploy nextjs with express to lambda",
   "main": "index.js",
   "repository": "https://github.com/belongco/nextjs-serverless-setup.git",
-  "contributers": [
+  "contributors": [
     {
       "name": "Vivek Kaarthek",
       "email": "kaarthek@belong.co"

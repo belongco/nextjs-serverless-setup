@@ -34,34 +34,35 @@ if (process.env.NODE_ENV === 'development') {
 function createServer() {
   const server = express();
 
-  server.get('/api/dog/', async (req, res) => {
+  server.get('/api/dog/:breed', async (req, res) => {
     const { breed } = req.params;
-    const dogData = await Dog.query('breed').eq(breed).exec();
+    try {
+      const dogData = await Dog.query('breed').eq(breed).exec();
 
-    res.send(dogData);
+      res.send({ s: 'success', d: dogData });
+    } catch (e) {
+      res.status(500).send({ s: 'error', m: e.message });
+    }
   });
 
-  server.post('/api/dog/', async (req, res) => {
-    const { breed, name } = req.body;
-
-    const payload = {
-      breed,
-      name,
-    };
-
+  server.get('/api/mock-dog-create/', async (req, res) => {
     try {
-      const dog = new Dog(payload);
-      const dogData = await dog.save();
+      const dogs = [{
+        name: 'Ollie',
+        breed: 'terrier',
+      }, {
+        name: 'Maxi',
+        breed: 'labrador',
+      }, {
+        name: 'Rio',
+        breed: 'border_collie',
+      }];
 
-      res.send({ s: 'success', m: 'Dog created successfully', d: dogData });
+      await Dog.batchPut(dogs);
+
+      res.send({ s: 'success', m: 'Dogs created successfully', d: dogs });
     } catch (e) {
-      res.status(400).send({
-        m: e.message,
-        s: 'error',
-        d: {
-          payload,
-        },
-      });
+      res.status(500).send({ s: 'error', m: e.message });
     }
   });
 

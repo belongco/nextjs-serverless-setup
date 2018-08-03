@@ -9,5 +9,13 @@ export default () => (
   <div className="index">
     <img src={`${STATIC_PATH}/static/images/bg.jpeg`} alt="Background" className="index__img"/>
     <h1>next.js | express | serverless</h1>
+    <ul>
+      <li>
+        <a target="_blank" href="/api/mock-dog-create">Create Dogs</a>
+      </li>
+      <li>
+        <a target="_blank" href="/api/dog/terrier">Get terrier</a>
+      </li>
+    </ul>
   </div>
 );

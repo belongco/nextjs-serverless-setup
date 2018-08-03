@@ -1,0 +1,18 @@
+---
+
+baseDomain: "domain.io"
+
+subnetId:
+  staging:
+    - "subnet-aaaaaaaa"
+    - "subnet-bbbbbbbb"
+  production:
+    - "subnet-cccccccc"
+    - "subnet-dddddddd"
+
+securityGroup:
+  staging:
+    - "sg-eeeeeeee"
+  production:
+    - "sg-ffffffff"
+

@@ -1,4 +1,3 @@
-# service name
 service: service-name
 
 
@@ -9,23 +8,21 @@ plugins:
 
 
 custom:
+  region: ${opt:region, 'ap-southeast-1'}
+  accountId: ${opt:accountId, '111111111111'}
   domain:
-    staging: staging.domain.com
-    production: domain.com
+    staging: staging-${self:service}.${file(./serverless-vpc-variables.yml):baseDomain}
+    production: production-${self:service}.${file(./serverless-vpc-variables.yml):baseDomain}
   subnetId:
-    staging:
-      - "subnet-id1"
-      - "subnet-id2"
-    production:
-      - "subnet-id1"
-      - "subnet-id2"
+    staging: ${file(./serverless-vpc-variables.yml):subnetId.staging}
+    production: ${file(./serverless-vpc-variables.yml):subnetId.production}
   securityGroup:
-    staging: "sg-grp1"
-    production: "sg-grp2"
+    staging: ${file(./serverless-vpc-variables.yml):securityGroup.staging}
+    production: ${file(./serverless-vpc-variables.yml):securityGroup.production}
   customDomain:
     basePath: ''
     domainName: ${self:custom.domain.${opt:stage}}
-    certificateName: '*.certificate-domains'
+    certificateName: '*.${file(./serverless-vpc-variables.yml):baseDomain}'
     stage: ${opt:stage}
     createRoute53Record: true
   apigwBinary:
@@ -57,13 +54,15 @@ provider:
         - "dynamodb:Scan"
         - "dynamodb:UpdateItem"
         - "dynamodb:UpdateTable"
-      Resource: "arn:aws:dynamodb:ap-southeast-1:acc_id:table/DB_PREFIX_*"
+      Resource: "arn:aws:dynamodb:${self:custom.region}:${self:custom.accountId}:table/${opt:stage}_${self:service}_*"
     - Effect: "Allow"
       Action:
         - "dynamodb:CreateTable"
         - "dynamodb:DescribeTable"
         - "dynamodb:ListTables"
       Resource: "*"
+
+
 
 functions:
   app:

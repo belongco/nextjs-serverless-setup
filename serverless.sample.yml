@@ -42,6 +42,28 @@ provider:
   environment:
     ENV_FILE: .env.${opt:stage}
     STATIC_PATH: ${opt:staticPath}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:BatchGetItem"
+        - "dynamodb:BatchWriteItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:DescribeTimeToLive"
+        - "dynamodb:GetItem"
+        - "dynamodb:GetRecords"
+        - "dynamodb:GetShardIterator"
+        - "dynamodb:PutItem"
+        - "dynamodb:Query"
+        - "dynamodb:Scan"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:UpdateTable"
+      Resource: "arn:aws:dynamodb:ap-southeast-1:acc_id:table/DB_PREFIX_*"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:CreateTable"
+        - "dynamodb:DescribeTable"
+        - "dynamodb:ListTables"
+      Resource: "*"
 
 functions:
   app:

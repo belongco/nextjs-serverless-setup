@@ -4,7 +4,16 @@
   "description": "Simple setup to deploy nextjs with express to lambda",
   "main": "index.js",
   "repository": "https://github.com/belongco/nextjs-serverless-setup.git",
-  "author": "Vivek Kaarthek <kaarthek@belong.co>",
+  "contributers": [
+    {
+      "name": "Vivek Kaarthek",
+      "email": "kaarthek@belong.co"
+    },
+    {
+      "name": "Phani Kumar",
+      "email": "phani@belong.co"
+    }
+  ],
   "license": "MIT",
   "scripts": {
     "lint": "eslint --fix pages/",
@@ -15,6 +24,7 @@
     "@zeit/next-sass": "^0.2.0",
     "aws-serverless-express": "^3.2.0",
     "dotenv": "^5.0.1",
+    "dynamoose": "^0.8.7",
     "express": "^4.16.3",
     "next": "5.1.0",
     "node-sass": "^4.9.0",

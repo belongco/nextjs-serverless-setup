@@ -8,7 +8,7 @@ First install the dependencies
 yarn run install
 ```
 
-You will also need to install (DynamoDB locally)[https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html].
+You will also need to install [DynamoDB locally](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html).
 
 To start DynamoDB run,
 ```

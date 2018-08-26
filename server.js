@@ -7,16 +7,8 @@ if (process.env.NODE_ENV === 'development') {
   require('dotenv').config({ path: path.resolve(__dirname, `./env/${process.env.ENV_FILE}`) });
 }
 
-const port = parseInt(process.env.PORT, 10) || 3000;
-const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
-
-const Dog = require('./models/Dog');
-
-
-//The accessKeyId & secretAccessKey can be made avaialble via the IAMRole
-
+// Configure Dynamoose
+// The accessKeyId & secretAccessKey can be made avaialble via the IAMRole
 dynamoose.AWS.config.update({
   region: process.env.SERVICE_AWS_REGION,
 });
@@ -34,6 +26,13 @@ if (process.env.NODE_ENV === 'development') {
   });
   dynamoose.local('http://localhost:8000');
 }
+
+const port = parseInt(process.env.PORT, 10) || 3000;
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
+
+const Dog = require('./models/Dog');
 
 function createServer() {
   const server = express();

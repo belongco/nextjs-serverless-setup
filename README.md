@@ -5,7 +5,7 @@ Deploying a next JS site to serverless.
 
 First install the dependencies
 ```
-yarn run install
+yarn install
 ```
 
 You will also need to install [DynamoDB locally](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html).
